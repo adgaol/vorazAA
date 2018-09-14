@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Voraz {
+	//suponiendo que las actividades estan ordenadas de forma ascendente por hora de finalización de la tarea
 	public static boolean[] selecActividades (int[] c, int[] f) {
 		 boolean[] s = new boolean[c.length];
 		 s[0] = true;
 		 int i = 0;
 		 for (int j=1; j<c.length; j++) {
-			 if ( f[i]<c[j]) {
+			//si la hora de finalizacion de la anterior tarea escogida es menor a la hora de inicio de la candidata
+			 if ( f[i]<=c[j]) {
 				 s[j] = true;
 				 i = j;
 			 }
@@ -36,7 +38,7 @@ public class Voraz {
 		 int i = 0;								
 		 s[aux[0]] = true;
 		 for (int j=1; j<c.length; j++) {
-			 if ( f[aux[i]]<c[aux[j]]) {
+			 if ( f[aux[i]]<=c[aux[j]]) {
 				 s[aux[j]] = true;
 				 i = j;
 			 } else {
