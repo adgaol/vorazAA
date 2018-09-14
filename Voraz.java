@@ -1,4 +1,7 @@
-package practica1;
+package P1voraces;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Voraz {
 	public static boolean[] selecActividades (int[] c, int[] f) {
@@ -6,7 +9,7 @@ public class Voraz {
 		 s[0] = true;
 		 int i = 0;
 		 for (int j=1; j<c.length; j++) {
-			 if (/*esApto(s,j,c,f)*/ f[i]<c[j]/*<<actividades i, j no se solapan>>*/) {
+			 if ( f[i]<c[j]) {
 				 s[j] = true;
 				 i = j;
 			 }
@@ -15,47 +18,30 @@ public class Voraz {
 		 	}
 		 return s;
 		 } 
-	public static boolean esApto(boolean[] s,int candidato,int[] c,int[] f){        
-        for(int j=0;j<s.length;j++){
-         /*tarea solución con el que se compara*/
-            
-            Boolean sol=s[j];
-            if(sol) {
-            	if((c[candidato]<f[j] && c[j]>f[candidato])||(c[candidato]>f[j] && c[j]<f[candidato]))
-            	 return true;  
-            }
-             /*indice original de la tarea que se va a comparar*/
-             /*int ind=indices[i];
-        si la tarea entra en conflicto la tarea solucion devuelve no apto*/
-       /* if(((c[ind]<f[sol])&&(c[sol]<f[ind]))){            
-                     
-        } */       
-        }
-        return false;
-    }
-	public static void ordenar(int n,int[] c,int[] f,int[] indices ) {
-        int [] duracion= new int[n];
-        for (int p =0;p<n;p++){
-            duracion[p]=f[p]-c[p];            
-        }
-    boolean swapped = true;
-    int j = 0;
-    int tmp;
-    int tmp2;
-    while (swapped) {
-        swapped = false;
-        j++;
-        for (int i = 0; i < duracion.length - j; i++) {
-            if (duracion[i] > duracion[i + 1]) {
-                tmp = duracion[i];
-                duracion[i] = duracion[i + 1];
-                duracion[i + 1] = tmp;
-                tmp2=indices[i];
-                indices[i]=indices[i+1];
-                indices[i+1]=tmp2;
-                swapped = true;               
-            }
-        }      
-    } 
+	public static int[] ordenarEnIndices (int[] f) {
+		 int[] aux = new int[f.length];
+		 aux[0] = 0;
+		 for (int i=1; i<f.length; i++) {
+		 int aux1 = f[i];
+		 int j;
+		 for (j=i-1; j>=0 && f[aux[j]]>aux1; j--)
+		 aux[j+1] = aux[j];
+		 aux[j+1] = i;
+		 }
+		 return aux;
+		 } 
+	public static LinkedList<Integer> selecActFinal(int[] c,int[] f){
+		 int[] aux = ordenarEnIndices(f);						//ordenamos los indice por hora de fin de actividad		 
+		 LinkedList<Integer> s = new LinkedList<Integer>();	    //creamos la lista en el que introduciremos las soluciones
+		 int i = 0;								
+		 s.add(0,aux[0]);
+		 for (int j=1; j<c.length; j++) {
+			 if ( f[aux[i]]<c[aux[j]]) {
+				 s.addLast(aux[j]);
+				 i = j;
+			 }
+
+	     }
+		 return s;
 	}
 }
