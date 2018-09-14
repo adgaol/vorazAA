@@ -30,15 +30,17 @@ public class Voraz {
 		 }
 		 return aux;
 		 } 
-	public static LinkedList<Integer> selecActFinal(int[] c,int[] f){
+	public static boolean[] selecActFinal(int[] c,int[] f){
 		 int[] aux = ordenarEnIndices(f);						//ordenamos los indice por hora de fin de actividad		 
-		 LinkedList<Integer> s = new LinkedList<Integer>();	    //creamos la lista en el que introduciremos las soluciones
+		 boolean[] s = new boolean[f.length];	   				 //creamos el array  en el que introduciremos las soluciones
 		 int i = 0;								
-		 s.add(0,aux[0]);
+		 s[aux[0]] = true;
 		 for (int j=1; j<c.length; j++) {
 			 if ( f[aux[i]]<c[aux[j]]) {
-				 s.addLast(aux[j]);
+				 s[aux[j]] = true;
 				 i = j;
+			 } else {
+				 s[aux[j]] = false;
 			 }
 
 	     }
